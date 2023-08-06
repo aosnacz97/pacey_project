@@ -25,7 +25,7 @@ load_or_install_packages <- function(packages) {
 load_or_install_packages(packages)
 
 ################################################################################
-# Hard Coded Variables
+# Hard Coded Variables and Functions
 ################################################################################
 # This is a relative path so you can run the script on a virtual machine
 local_path <- "~/pacey_project/"
@@ -346,7 +346,7 @@ man_city_cmj_data_height_table <- distinct(man_city_cmj_data_height_table) %>%
   arrange(desc(value))
 
 # Define the path to your image
-img_path <- paste0(local_path, "styles/mac_city_logo.png")
+img_path <- paste0(local_path, "styles/man_city_logo.png")
 
 # Read the image file and convert to Base64
 img_data <- base64encode(img_path)

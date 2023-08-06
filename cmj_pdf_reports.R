@@ -78,6 +78,7 @@ tryCatch(
 
 tryCatch(
   {
+    # if a row is identified as an outlier it's labeled
     man_city_cmj_data <- man_city_cmj_data %>% dplyr::mutate(is_outlier = ifelse(altura < Tmin | altura > Tmax,
                                                                                  paste0("yes"),
                                                                                  paste0("no")))
@@ -87,6 +88,7 @@ tryCatch(
   }
 )
 
+# filter out the data by label
 man_city_cmj_data <- dplyr::filter(man_city_cmj_data, is_outlier != "yes" | is.na(is_outlier))
 
 ################################################################################

@@ -7,13 +7,9 @@
 ################################################################################
 # List of packages
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
-packages <- c("tidyverse", "dplyr", "DT", "futile.logger", "tryCatchLog",
-              "httr", "data.table", "tidyr", "janitor", "sysfonts",
-              "showtext", "png", "jpeg", "grid", "ggpubr", "cowplot", "gridExtra",
-              "reshape2", "forcats", "shadowtext", "lubridate",
-              "rlang", "reshape2", "tidytext", "RColorBrewer", "shinyWidgets",
-              "reactablefmtr", "htmlwidgets", "webshot2", "magick",
-              "pagedown", "htmltools", "base64enc")
+packages <- c("tidyverse", "dplyr", "tryCatchLog","httr", 
+              "tidyr", "janitor", "rlang", "RColorBrewer", "shinyWidgets",
+              "reactablefmtr", "htmlwidgets", "pagedown", "htmltools", "base64enc")
 
 # Function to load or install packages
 load_or_install_packages <- function(packages) {
@@ -82,7 +78,9 @@ tryCatch(
 
 tryCatch(
   {
-    man_city_cmj_data <- man_city_cmj_data %>% dplyr::mutate(is_outlier = ifelse(altura < Tmin | altura > Tmax, paste0("yes"), paste0("no")))
+    man_city_cmj_data <- man_city_cmj_data %>% dplyr::mutate(is_outlier = ifelse(altura < Tmin | altura > Tmax,
+                                                                                 paste0("yes"),
+                                                                                 paste0("no")))
   },
   error = function(e) {
     cat("ERROR :", conditionMessage(e), "\n")
@@ -91,6 +89,9 @@ tryCatch(
 
 man_city_cmj_data <- dplyr::filter(man_city_cmj_data, is_outlier != "yes" | is.na(is_outlier))
 
+################################################################################
+# Mutating the Data to Fit the Demands of our Report
+################################################################################
 # Here we are getting the athlete means by day after removing outliers 
 tryCatch(
   {man_city_cmj_data <- group_by(
@@ -197,9 +198,6 @@ man_city_cmj_data_height <- rename(man_city_cmj_data_height,
 # Now round the dataframe to 1 decimal place
 man_city_cmj_data_height <- round_df(man_city_cmj_data_height, 1)
 
-################################################################################
-# Make table
-################################################################################
 # Order the dataframe by date, grouped by 'athlete' and 'test_type'
 man_city_cmj_data_height <- man_city_cmj_data_height %>%
   arrange(athlete, test_type, date)
@@ -357,6 +355,9 @@ img_uri <- paste0("data:image/png;base64,", img_data)
 # Round dataframe to 1 decimal place
 man_city_cmj_data_height_table <- round_df(man_city_cmj_data_height_table, 1)
 
+################################################################################
+# Make table
+################################################################################
 # Build our table using reactable!
 man_city_cmj_data_height_table <- reactable(
   man_city_cmj_data_height_table,
